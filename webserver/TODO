@@ -1,19 +1,3 @@
 ##################  SERVER  ###################
 
-1. Create library files
- - socket usage (TCP only)
- - functions error wrappers
- - probably http protocol related
-
-2. Create Server 
- - multi-threaded echo server 
- - update to web requests
- - Events
-    - children management
-    - shutdown
-    - crash
-    - other signals
- - processing http requests
-
-3. Create Client
- - requests sending capabilities (like curl)
+1. Create Tread Pool library X
