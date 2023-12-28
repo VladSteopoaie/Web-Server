@@ -6,9 +6,8 @@
 #include "../lib/errorwrappers.h"
 #include "../lib/threadpool.h"
 #include "../lib/requestmanager.h"
+#include "../lib/config.h"
 
-#define ROOT_DIR "~/http/home"
-#define SERVICE_PORT "8888"
 
 #define DEBUG
 
@@ -19,12 +18,15 @@
 
 #endif
 
+const char* ROOT_DIR;
+const char* SERVICE_PORT;
 
 
 int main(int argc, char *argv[])
 {
+    Init(); // get values from config file
 
-	struct sockaddr_in cli_addr; /* the from address of a client */
+    struct sockaddr_in cli_addr; /* the from address of a client */
 	socklen_t cli_len; /* from-address length */
 	fd_set read_fd_set, active_fd_set; /* read file descriptor set */
 	int fd, nfds, master_sock, client_sock;
@@ -44,11 +46,10 @@ int main(int argc, char *argv[])
 
 		Select(nfds, &read_fd_set, NULL, NULL, (struct timeval*)0);
 		
-
         if (FD_ISSET(master_sock, &read_fd_set))
         {
             client_sock = Accept(master_sock, (struct sockaddr*) &cli_addr, (socklen_t*) &cli_len);
-            // DEBI("Socket", client_sock);
+           
             Task request;
             request.taskFunction = ManageRequest;
             request.arg = client_sock;
