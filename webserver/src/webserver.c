@@ -18,29 +18,32 @@
 
 #endif
 
+// constants from config file
 const char* ROOT_DIR;
 const char* SERVICE_PORT;
 
 
 int main(int argc, char *argv[])
 {
-    Init(); // get values from config file
 
-    struct sockaddr_in cli_addr; /* the from address of a client */
-	socklen_t cli_len; /* from-address length */
-	fd_set read_fd_set, active_fd_set; /* read file descriptor set */
-	int fd, nfds, master_sock, client_sock;
+    struct sockaddr_in cli_addr; /* the address of client */
+	socklen_t cli_len; /* address length */
+	fd_set read_fd_set, active_fd_set; /* descriptor sets */
+
+	int nfds, master_sock, client_sock;
     pthread_t threads[MAX_THREADS];
 
-    PoolInit(threads);
+    PoolInit(threads); // initialize thread pool
+    Init(); // initialize variables from config file
+
 	nfds = FD_SETSIZE;
 	FD_ZERO(&read_fd_set);
 	FD_ZERO(&active_fd_set);
 
-    master_sock = PassiveSockTCP(SERVICE_PORT);
-    FD_SET(master_sock, &active_fd_set);
+    master_sock = PassiveSockTCP(SERVICE_PORT); // creates a listening tcp socket on port SERVICE_PORT
+    FD_SET(master_sock, &active_fd_set); // add the socket to the fd set
 
-	for(;;) {
+	for(;;) { // infinite loop for asynchronous input
 
 		memcpy(&read_fd_set, &active_fd_set, sizeof(active_fd_set));
 
@@ -48,6 +51,7 @@ int main(int argc, char *argv[])
 		
         if (FD_ISSET(master_sock, &read_fd_set))
         {
+            // when we have a connection -> accept it and give the request to a thread
             client_sock = Accept(master_sock, (struct sockaddr*) &cli_addr, (socklen_t*) &cli_len);
            
             Task request;

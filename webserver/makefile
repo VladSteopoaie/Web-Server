@@ -20,4 +20,4 @@ config.o: lib/config.c
 	gcc -c lib/config.c
 
 threadpool.o: lib/threadpool.c 
-	gcc $(CFLAGS) -c lib/threadpool.c
+	gcc -c lib/threadpool.c

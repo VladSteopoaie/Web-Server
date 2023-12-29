@@ -38,6 +38,7 @@ void Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struc
 int Accept(int fd, struct sockaddr *addr, socklen_t *addr_len)
 {
     int rezfd;
+
     rezfd = accept(fd, addr, addr_len);
 
     if (rezfd < 0)

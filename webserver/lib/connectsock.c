@@ -15,20 +15,22 @@ int StrToSocktype(const char* str)
     else if (!strcmp(str, "udp"))
         return SOCK_DGRAM;  
     else{
-        fprintf(stderr, "Transport protocol not supported!\n");
         return -1;
     }
 }
 
 int ConnectSock(const char *host, const char *service, const char *transport)
 {
-    // Declarations
+    // declarations
     int socktype, ret_code, sock;
     struct addrinfo hints;
     struct addrinfo *result, *res_elem;
 
     if ((socktype = StrToSocktype(transport)) < 0)
+    {
+        fprintf(stderr, "Transport protocol not supported!\n");
         return -1;
+    }
     
     // initializing hints
     bzero(&hints, sizeof(hints));
@@ -57,7 +59,7 @@ int ConnectSock(const char *host, const char *service, const char *transport)
         if (socktype == SOCK_DGRAM) // if transport is udp -> dosen't need to connect
             break;
 
-        if (connect(sock, res_elem->ai_addr, res_elem->ai_addrlen) != -1)
+        if (connect(sock, res_elem->ai_addr, res_elem->ai_addrlen) == 0)
             break;
 
         close(sock);
@@ -91,13 +93,18 @@ int ConnectSockUDP(const char* host, const char* service)
 
 int PassiveSock(const char *service, const char *transport)
 {
+    // declarations
     int socktype, sock, ret_code;
     struct addrinfo hints;
     struct addrinfo *result, *res_elem;
 
     if ((socktype = StrToSocktype(transport)) < 0)
+    {
+        fprintf(stderr, "Transport protocol not supported!\n");
         return -1;
+    }
     
+    // initializing hints
     bzero(&hints, sizeof(hints));
     hints.ai_family = AF_INET;
     hints.ai_socktype = socktype;
@@ -107,6 +114,7 @@ int PassiveSock(const char *service, const char *transport)
     hints.ai_addr = NULL;
     hints.ai_next = NULL;
 
+    // get needed credentials
     ret_code = getaddrinfo(NULL, service, &hints, &result);
     if (ret_code != 0)
     {
@@ -114,19 +122,21 @@ int PassiveSock(const char *service, const char *transport)
         return -1;
     }
 
+    // go through the result and select the first socket
     for(res_elem = result; res_elem != NULL; res_elem = res_elem->ai_next)
     {
         sock = socket(res_elem->ai_family, res_elem->ai_socktype, res_elem->ai_protocol);
 
+        if (sock == -1)
+            continue;
+
+        // reuse the port if opened earlier (sometimes it's needed to wait to reuse a port, this solves that)
         int reuse = 1;
         if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(int)) == -1) {
             perror("setsockopt");
             close(sock);
             return -1;
         }
-
-        if (sock == -1)
-            continue;
 
         if (bind(sock, res_elem->ai_addr, res_elem->ai_addrlen) == 0)
             break;
@@ -136,6 +146,7 @@ int PassiveSock(const char *service, const char *transport)
 
     freeaddrinfo(result);
 
+    // verify result
     if (res_elem == NULL)
     {
         fprintf(stderr, "Could not bind!\n");
