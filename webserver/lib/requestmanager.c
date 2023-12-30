@@ -1,4 +1,5 @@
 #include "requestmanager.h"
+#include "config.h"
 
 #ifdef DEBUG
 
@@ -28,10 +29,22 @@ int ValidateMethod(const char* method)
 
 int ValidateURI(const char* uri)
 {
-    if (access(uri, F_OK) != 0)
-        return -1;
+    char* path = AppendString(ROOT_DIR, uri, MAX_LEN_PATH);
+    int result;
+
+    result = access(path, F_OK);
+
+    if (IsDir(path))
+    {
+        if (path[strlen(path) - 1] != '/')
+            strcat(path, "/");
+        if (AppendIndex(path) < 0)
+            result = -1;
+    }
+
     
-    return 0;
+    free(path);
+    return result;
 }
 
 int ValidateVersion(const char* version)
@@ -57,51 +70,35 @@ int ValidateRequest(struct request* req)
 ////// CONCATENATION FUNCTIONS //////
 /////////////////////////////////////
 
-void AppendAbsolutePath(char* uri)
+char* AppendString(const char* str1, const char* str2, size_t size)
 {
-    char aux[MAX_LEN_PATH];
+    char* result = malloc(size);
+    bzero(result, size);
 
-    sprintf(aux, "%s%s", ROOT_DIR, uri);
-    strcpy(uri, aux);
-    if (uri[strlen(uri) - 1] == '/' || uri[strlen(uri) - 1] == '\\')
-        uri[strlen(uri) - 1] = '\0';
+    snprintf(result, size, "%s%s", str1, str2);
+    
+    return result;
 }
 
 int AppendIndex(char* uri)
 {
     struct stat st;
-    size_t file_size;
     char final_path[MAX_LEN_PATH];
-    if (stat(uri, &st) < 0)
+    
+    snprintf(final_path, MAX_LEN_PATH, "%sindex.html", uri);
+
+    if (stat(final_path, &st) == 0 && S_ISREG(st.st_mode))
+        strcpy(uri, final_path);
+    else
     {
-        perror("stat");
-        return -1;
+        snprintf(final_path, MAX_LEN_PATH, "%sindex.php", uri);
+
+        if(stat(final_path, &st) == 0 && S_ISREG(st.st_mode))
+            strcpy(uri, final_path);
+        else 
+            return -1;
     }
 
-    if (S_ISDIR(st.st_mode))
-    {
-        snprintf(final_path, MAX_LEN_PATH, "%s/index.php", uri);
-
-        if (stat(final_path, &st) == 0 && S_ISREG(st.st_mode))
-            file_size = st.st_size;
-        else
-        {
-            snprintf(final_path, MAX_LEN_PATH, "%s/index.html", uri);
-
-            if(stat(final_path, &st) == 0 && S_ISREG(st.st_mode))
-                file_size = st.st_size;
-            else 
-                return -1;
-        }
-
-    }
-    else if (S_ISREG(st.st_mode)){
-        snprintf(final_path, MAX_LEN_PATH, "%s", uri);
-    }
-    else {
-        return -1;
-    }
-    strcpy(uri, final_path);
     return 0;
 }
 
@@ -115,6 +112,10 @@ void AppendContentType(char* header, const char* extension)
     else if (strcmp(extension, "js") == 0)
     {
         strcpy(type, "application/javascript");
+    }
+    else if (strcmp(extension, "jpeg") == 0)
+    {
+        strcpy(type, "image/jpeg");
     }
     else {
         strcpy(type, "text/html");
@@ -131,6 +132,13 @@ void AppendContentLength(char* header, size_t size)
     strcat(header, length);
 }
 
+void AppendLocation(char* header, const char* path)
+{
+    char location[MAX_LEN_PATH];
+    sprintf(location, "Location: %s\n", path);
+    strcat(header, location);
+}
+
 void* ConcatData(const void* data1, size_t size1, const void* data2, size_t size2)
 {
     void* concat_data = malloc(size1 + size2);
@@ -143,18 +151,34 @@ void* ConcatData(const void* data1, size_t size1, const void* data2, size_t size
 /////// OTHER FUNCTIONS ////////
 ////////////////////////////////
 
+int IsDir(const char* path)
+{
+    struct stat st;
+    if (stat(path, &st) < 0)
+    {
+        return 0;
+    }
+
+    if (S_ISDIR(st.st_mode))
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
 
 char* GetExtension(const char* path)
 {
     char* ext = malloc(MAX_LEN_PATH);
     bzero(ext, MAX_LEN_PATH);
     for (int i = strlen(path) - 1; i >= 0; i --)
-        {
-            if (path[i] == '.'){
-                strcpy(ext, (path + i + 1));
-                break;
-            }
+    {
+        if (path[i] == '.'){
+            strcpy(ext, (path + i + 1));
+            break;
         }
+    }
     return ext;
 }
 
@@ -238,6 +262,13 @@ char* Http_400()
     return CreateSimpleResponse("400", "Bad Request", "400 Bad Request", "The server can not parse this request.");
 }
 
+char* Http_301(const char* new_path)
+{
+    char* header = CreateHeader("301", "Moved Permanently");
+    AppendLocation(header, new_path);
+    return header;
+}
+
 
 void SendResponse(int sock, char* resp, size_t size)
 {
@@ -279,10 +310,6 @@ int ParseRequest(const char* req, struct request* result)
     if (GetRequestLine(result->method, result->uri, result->version, req) < 0)
         return INV_REQ;
 
-    AppendAbsolutePath(result->uri);
-    if (AppendIndex(result->uri) < 0)
-        return INV_URI;
-
     return ValidateRequest(result);
 }
 
@@ -300,7 +327,7 @@ void ManageRequest(int sock)
     size_t response_size;
     int req_result; 
     struct request req;
-    char* response;
+    char* response = NULL;
 
     char* text_received = ReadRequest(sock);
     
@@ -324,24 +351,37 @@ void ManageRequest(int sock)
         LockRequestMutex();
 
         size_t body_size;
-        char* ext;
-        char* header;
+        char* ext, *header, *path;
         char* body = malloc(MAX_LEN_FILE);
         bzero(body, MAX_LEN_FILE);
-
-        ext = GetExtension(req.uri);    
         
-        header = CreateHeader("200", "OK");
+        path = AppendString(ROOT_DIR, req.uri, MAX_LEN_PATH);
+        if (IsDir(path))
+        {
+            if (path[strlen(path) -1] != '/') {
+                strcat(req.uri, "/");
+                strcat(path, "/");
+                header = Http_301(req.uri);
+            }
+            else {
+                header = CreateHeader("200", "OK");
+            }
+            AppendIndex(path);
+        }
+        else {
+            header = CreateHeader("200", "OK");
+        }
+
+        ext = GetExtension(path);    
         
         AppendContentType(header, ext);
-
 
         if (strcmp(ext, "php") == 0)
         {
             header[0] = '\0';
         }
         else {
-            body_size = GetFile(req.uri, body);
+            body_size = GetFile(path, body);
 
             if (body_size <= 0)
             {
@@ -352,8 +392,9 @@ void ManageRequest(int sock)
             }
         }
         
-        if (header[0] == '\0')
+        if (header[0] == '\0') {
             response = Http_404(), response_size = strlen(response);
+        }
         else{
             strcat(header, "\n");
             response = ConcatData(header, strlen(header), body, body_size);
@@ -363,6 +404,7 @@ void ManageRequest(int sock)
         free(header);
         free(body);
         free(ext);
+        free(path);
 
         UnlockRequestMutex();
     }

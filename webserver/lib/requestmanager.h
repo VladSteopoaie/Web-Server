@@ -38,7 +38,7 @@ int ValidateRequest(struct request* req);
 /////////////////////////////////////
 ////// CONCATENATION FUNCTIONS //////
 /////////////////////////////////////
-void AppendAbsolutePath(char* uri);
+char* AppendString(const char* str1, const char* str2, size_t size);
 int AppendIndex(char* uri);
 void AppendContentType(char* header, const char* extension);
 void AppendContentLength(char* header, size_t size);
@@ -48,6 +48,7 @@ void* ConcatData(const void* data1, size_t size1, const void* data2, size_t size
 /////// OTHER FUNCTIONS ////////
 ////////////////////////////////
 
+int IsDir(const char* path);
 char* GetExtension(const char* path);
 size_t GetFile(const char* path, char* body);
 
