@@ -1,5 +1,6 @@
 #include "requestmanager.h"
 #include "config.h"
+#include <stdio.h>
 
 #ifdef DEBUG
 
@@ -351,6 +352,8 @@ void ManageRequest(int sock)
         LockRequestMutex();
 
         size_t body_size;
+        int command_result;
+        char command[MAX_LEN_PATH];
         char* ext, *header, *path;
         char* body = malloc(MAX_LEN_FILE);
         bzero(body, MAX_LEN_FILE);
@@ -378,19 +381,48 @@ void ManageRequest(int sock)
 
         if (strcmp(ext, "php") == 0)
         {
-            header[0] = '\0';
-        }
-        else {
-            body_size = GetFile(path, body);
-
-            if (body_size <= 0)
+            char post_attributes[MAX_LEN_PATH];
+            
+            if (strcmp(req.method, "GET") == 0)
             {
-                header[0] = '\0';
-            } 
-            else {
-                AppendContentLength(header, body_size);
+                post_attributes[0] = '\0';
             }
+            else if (strcmp(req.method, "POST") == 0)
+            {
+                ;
+            }
+
+            snprintf(command, MAX_LEN_PATH,
+            "php \"%s/preprocess.php\" \"%s\" \"%s\" > \"%s/processed.html\"", 
+            CONFIG_DIR, post_attributes, path, ROOT_DIR);
+            DEB(command);
+            command_result = system(command);
+
+            if (command_result != 0)
+            {
+                ;// handle error (should return a server error code 500)
+            }
+            else {
+                snprintf(path, MAX_LEN_PATH, "%s/processed.html", ROOT_DIR);
+            }
+            
         }
+        
+        
+        body_size = GetFile(path, body);
+        
+        snprintf(command, MAX_LEN_PATH, "rm \"%s/processed.html\"", ROOT_DIR);
+        DEB(command);
+        system(command);
+        
+        if (body_size <= 0)
+        {
+            header[0] = '\0';
+        } 
+        else {
+            AppendContentLength(header, body_size);
+        }
+        
         
         if (header[0] == '\0') {
             response = Http_404(), response_size = strlen(response);

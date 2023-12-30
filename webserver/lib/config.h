@@ -18,6 +18,7 @@
 #define DEFAULT_ROOT_DIR "/etc/webserver/http/home"
 #define DEFAULT_SERVICE_PORT "8888"
 #define CONFIG_FILE "/etc/webserver/webserver.conf"
+#define CONFIG_DIR "/etc/webserver"
 
 extern const char* ROOT_DIR;
 extern const char* SERVICE_PORT;
