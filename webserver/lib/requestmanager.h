@@ -9,6 +9,8 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
+#include <time.h>
 #include <sys/mman.h>
 
 

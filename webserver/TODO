@@ -4,5 +4,6 @@
 2. Moved permanently when accessing folders. X
 3. Make code more readable.
 4. Documentation for code.
-5. retrieve php files
-6. Implement POST, HEAD and PUT
+5. retrieve php files X
+6. Implement GET X, POST X, HEAD X and PUT
+7. Testing (python script)

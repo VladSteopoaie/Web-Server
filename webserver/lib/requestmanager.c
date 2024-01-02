@@ -1,11 +1,10 @@
 #include "requestmanager.h"
-#include "config.h"
-#include <stdio.h>
 
 #ifdef DEBUG
 
     #define DEB(x) printf("%s\n", x)
     #define DEBI(msg, i) printf("%s: %d\n", msg, i)
+    #define DEBA(msg, i) printf("%s: %p\n", msg, i)
 
 #endif
 
@@ -15,8 +14,8 @@
 
 int ValidateMethod(const char* method)
 {
-    int nr_methods = 1;
-    char* allowed_methods[1] = {"GET"};
+    int nr_methods = 3;
+    char* allowed_methods[3] = {"GET", "HEAD", "POST"};
     int ret = -1;
 
     for (int i = 0; i < nr_methods; i ++)
@@ -128,6 +127,8 @@ void AppendContentType(char* header, const char* extension)
 
 void AppendContentLength(char* header, size_t size)
 {
+    if (size == 0)
+        return;
     char length[MAX_LEN_PATH];
     sprintf(length, "Content-Length: %ld\n", size);
     strcat(header, length);
@@ -143,14 +144,53 @@ void AppendLocation(char* header, const char* path)
 void* ConcatData(const void* data1, size_t size1, const void* data2, size_t size2)
 {
     void* concat_data = malloc(size1 + size2);
-    memcpy(concat_data, data1, size1);
-    memcpy(concat_data + size1, data2, size2);
+    bzero(concat_data, size1 + size2);
+
+    if (size1 != 0)
+        memcpy(concat_data, data1, size1);
+    if (size2 != 0)
+        memcpy(concat_data + size1, data2, size2);
     return concat_data;
 }
 
 ////////////////////////////////
 /////// OTHER FUNCTIONS ////////
 ////////////////////////////////
+
+void GetPostAttributes(const char* request, char* attirbutes)
+{   
+    size_t size = 0;
+    char* content_length = "Content-Length: ";
+    char* start = strstr(request, "\r\n\r\n");
+    char* length = strstr(request, content_length);
+
+    if (start == NULL || length == NULL)
+    {
+        attirbutes[0] = '\0';
+        return;
+    }
+    length += strlen(content_length);
+    start += 4;
+
+    for(char* i = length; isdigit(*i); i ++)
+    {
+        size = 10 * size + (*i) - '0';
+    }
+
+    memcpy(attirbutes, start, size);
+
+    return;
+    
+
+    // if (end == start)
+    // {
+    //     memcpy(attirbutes, start, strlen(start));
+    // }
+    // else {
+    //     memcpy(attirbutes, start, strlen(start) - strlen(end));
+    // }
+
+}
 
 int IsDir(const char* path)
 {
@@ -210,7 +250,12 @@ size_t GetFile(const char* path, char* body)
     memcpy(body, addr, st.st_size);
     body[st.st_size] = '\0';
 
-    munmap(addr, st.st_size);
+    if (munmap(addr, st.st_size) < 0)
+    {
+        perror("munmap");
+        return -1;
+    }
+    
     return st.st_size;
 }
 
@@ -225,7 +270,16 @@ char* CreateHeader(const char* code, const char* header_title)
 {
     char* header = malloc(MAX_LEN_HEADER);
     bzero(header, MAX_LEN_HEADER);
-    sprintf(header, "HTTP/1.1 %s %s\n", code, header_title);
+    
+    time_t currentTime;
+    struct tm* timeInfo; // convert the current time to the HTTP date format
+    char dateString[50];  // final date
+    
+    time(&currentTime);
+    timeInfo = gmtime(&currentTime);  // GMT time
+    strftime(dateString, sizeof(dateString), "%a, %d %b %Y %H:%M:%S GMT", timeInfo);
+
+    sprintf(header, "HTTP/1.1 %s %s\nServer: DancingGhost/1.0\nConnection: close\nDate: %s\n", code, header_title, dateString);
     return header;
 }
 
@@ -261,6 +315,21 @@ char* Http_404()
 char* Http_400()
 {
     return CreateSimpleResponse("400", "Bad Request", "400 Bad Request", "The server can not parse this request.");
+}
+
+char* Http_500()
+{
+    return CreateSimpleResponse("500", "Internal Sever Error", "500 Internal Server Error", "There has been a problem on the server.");
+}
+
+char* Http_501()
+{
+    return CreateSimpleResponse("501", "Not Implemented", "501 Not Implemented", "Request method not recoginsed by the server.");
+}
+
+char* Http_505()
+{
+    return CreateSimpleResponse("505", "HTTP Version Not Supported", "505 HTTP Version Not Supported", "Only HTTP/1.1 is supported.");
 }
 
 char* Http_301(const char* new_path)
@@ -319,7 +388,6 @@ char* ReadRequest(int sock)
     char* text = malloc(MAX_LEN_HEADER);
     bzero(text, MAX_LEN_HEADER);
     int nbytes = Read(sock, text, MAX_LEN_HEADER);
-    DEB(text);
     return text;
 }
 
@@ -331,28 +399,30 @@ void ManageRequest(int sock)
     char* response = NULL;
 
     char* text_received = ReadRequest(sock);
-    
-
+    // DEB(text_received);
     req_result = ParseRequest(text_received, &req);
 
     switch(req_result)
     {
         case INV_METHOD:
-        case INV_VERSION:
+            response = Http_501();
+            break;
         case INV_REQ:
-            response = Http_400(), response_size = strlen(response);
+            response = Http_400();
             break;
         case INV_URI:
-            response = Http_404(), response_size = strlen(response);
+            response = Http_404();
+            break;
+        case INV_VERSION:
+            response = Http_505();
             break;
     }
 
     if (req_result == 0)
     {
-        LockRequestMutex();
 
-        size_t body_size;
-        int command_result;
+        size_t body_size = 0;
+        int command_result = 0;
         char command[MAX_LEN_PATH];
         char* ext, *header, *path;
         char* body = malloc(MAX_LEN_FILE);
@@ -379,6 +449,7 @@ void ManageRequest(int sock)
         
         AppendContentType(header, ext);
 
+        LockRequestMutex();
         if (strcmp(ext, "php") == 0)
         {
             char post_attributes[MAX_LEN_PATH];
@@ -389,48 +460,37 @@ void ManageRequest(int sock)
             }
             else if (strcmp(req.method, "POST") == 0)
             {
-                ;
+                GetPostAttributes(text_received, post_attributes);
             }
 
             snprintf(command, MAX_LEN_PATH,
             "php \"%s/preprocess.php\" \"%s\" \"%s\" > \"%s/processed.html\"", 
-            CONFIG_DIR, post_attributes, path, ROOT_DIR);
-            DEB(command);
+                    CONFIG_DIR, post_attributes, path, ROOT_DIR);
             command_result = system(command);
 
-            if (command_result != 0)
-            {
-                ;// handle error (should return a server error code 500)
-            }
-            else {
-                snprintf(path, MAX_LEN_PATH, "%s/processed.html", ROOT_DIR);
-            }
-            
+            snprintf(path, MAX_LEN_PATH, "%s/processed.html", ROOT_DIR);
         }
         
+        if (command_result == 0)
+            body_size = GetFile(path, body);
         
-        body_size = GetFile(path, body);
-        
-        snprintf(command, MAX_LEN_PATH, "rm \"%s/processed.html\"", ROOT_DIR);
-        DEB(command);
+        snprintf(command, MAX_LEN_PATH, "rm \"%s/processed.html\" 2> /dev/null 1>&2", ROOT_DIR);
         system(command);
+        UnlockRequestMutex();
         
-        if (body_size <= 0)
-        {
-            header[0] = '\0';
-        } 
-        else {
-            AppendContentLength(header, body_size);
-        }
-        
+        body_size < 0 ? header[0] = '\0' : AppendContentLength(header, body_size);
+
         
         if (header[0] == '\0') {
-            response = Http_404(), response_size = strlen(response);
+            response = (command_result == 0) ? Http_404() : Http_500();
+            response_size = strlen(response);
         }
         else{
             strcat(header, "\n");
+
             response = ConcatData(header, strlen(header), body, body_size);
             response_size = strlen(header) + body_size;
+
         }
 
         free(header);
@@ -438,8 +498,17 @@ void ManageRequest(int sock)
         free(ext);
         free(path);
 
-        UnlockRequestMutex();
     }
+    else {
+        response_size = strlen(response);
+    }
+
+    if (strcmp(req.method, "HEAD") == 0)
+    {
+        char* header_end = strstr(response, "\n\n");
+        response_size = strlen(response) - strlen(header_end);
+    }
+
     SendResponse(sock, response, response_size);
 
     free(text_received);

@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
         {
             // when we have a connection -> accept it and give the request to a thread
             client_sock = Accept(master_sock, (struct sockaddr*) &cli_addr, (socklen_t*) &cli_len);
-           
+
             Task request;
             request.taskFunction = ManageRequest;
             request.arg = client_sock;
