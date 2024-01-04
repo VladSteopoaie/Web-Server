@@ -8,7 +8,7 @@ ssize_t Read(int fd, void* buf, size_t count)
     {
         perror("read");
     }
-    assert(nb >= 0);
+    //assert(nb >= 0);
     return nb;
 }
 
@@ -32,8 +32,7 @@ void Select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struc
         perror("select");
     }
 
-    assert(rez >= 0);
-}
+ }
 
 int Accept(int fd, struct sockaddr *addr, socklen_t *addr_len)
 {

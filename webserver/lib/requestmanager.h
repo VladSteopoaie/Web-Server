@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <time.h>
-#include <sys/mman.h>
 
 
 #define INV_METHOD -1
@@ -52,7 +51,7 @@ void* ConcatData(const void* data1, size_t size1, const void* data2, size_t size
 
 int IsDir(const char* path);
 char* GetExtension(const char* path);
-size_t GetFile(const char* path, char* body);
+ssize_t GetFile(const char* path, char* body);
 
 //////////////////////////////////////
 ////////// RESPONSE RELATED //////////

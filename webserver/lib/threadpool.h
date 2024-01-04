@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <assert.h>
+#include "config.h"
 
-#define MAX_THREADS 8
-#define MAX_TASKS 256
-
+// #define MAX_THREADS 1 // change the number of threads here
+#define MAX_TASKS 10000
 
 typedef struct Task {
     void (*taskFunction)(int);

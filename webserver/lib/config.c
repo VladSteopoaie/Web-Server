@@ -2,8 +2,12 @@
 
 void Init()
 {
-    SERVICE_PORT = GetFromConfigFile("port=", DEFAULT_SERVICE_PORT, MAX_LEN_PORT);
-    ROOT_DIR = GetFromConfigFile("root=", DEFAULT_ROOT_DIR, MAX_LEN_PATH);
+    char* config_file = GetConfigFile();
+ 
+    SERVICE_PORT = GetFromConfigFile(config_file, "port=", DEFAULT_SERVICE_PORT, MAX_LEN_PORT);
+    ROOT_DIR = GetFromConfigFile(config_file, "root=", DEFAULT_ROOT_DIR, MAX_LEN_PATH);
+    MAX_THREADS = GetFromConfigFile(config_file, "threads=", "8", MAX_LEN_PORT);
+    free(config_file);
 }
 
 char* GetConfigFile()
@@ -16,7 +20,7 @@ char* GetConfigFile()
 
     if (fd < 0)
     {
-        fprintf(stderr, "[-] No config file found. Working with default values. Add the file %s for configuration.", CONFIG_FILE);
+        fprintf(stderr, "[-] No config file found. Working with default values. Add the file %s for configuration.\n", CONFIG_FILE);
         return NULL;
     }
     
@@ -27,13 +31,12 @@ char* GetConfigFile()
     return config_file;
 }
 
-char* GetFromConfigFile(const char* val, const char* default_val, size_t size)
+char* GetFromConfigFile(char* config_file, const char* val, const char* default_val, size_t size)
 {
-    char* config_file = GetConfigFile();
     char* result = malloc(size);
     bzero(result, size);
 
-    char* i = strstr(config_file, val);
+    char* i = config_file == NULL ? NULL : strstr(config_file, val);
 
     if (i == NULL)
     {
@@ -44,7 +47,7 @@ char* GetFromConfigFile(const char* val, const char* default_val, size_t size)
         i += strlen(val); // get the pointer to the end of the string
         int j;
         // copy the contents till \n or \0 encountered
-        for (j = 0; *(i + j) != '\n' && *(i + j) != '\0'; j ++)
+        for (j = 0; *(i + j) != '\n' && *(i + j) != '\0' && j < size; j ++)
         {
             result[j] = *(i + j);
 
@@ -53,6 +56,5 @@ char* GetFromConfigFile(const char* val, const char* default_val, size_t size)
     }
 
 
-    free(config_file);
     return result;
 }

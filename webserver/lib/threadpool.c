@@ -7,7 +7,6 @@ pthread_mutex_t mutexQueue; // used when adding a task to the task queue
 pthread_mutex_t mutexRequest; // used when accessing and mapping the memory of a file in ManageRequest function
 pthread_cond_t condQueue; // used to wait for a task to be added to the queue
 
-
 void ExecuteTask(Task* task)
 {
     task->taskFunction(task->arg);
@@ -50,10 +49,12 @@ void AddTask(Task task)
 
 void PoolInit(pthread_t *threads)
 {
+    int size = atoi(MAX_THREADS);
+    assert(size > 0);
     pthread_mutex_init(&mutexQueue, NULL);
     pthread_mutex_init(&mutexRequest, NULL);
     pthread_cond_init(&condQueue, NULL);
-    for(int i = 0; i < MAX_THREADS; i ++)
+    for(int i = 0; i < size; i ++)
     {
         int result;
         if ((result = pthread_create(&threads[i], NULL, &startThread, NULL)) < 0)
@@ -67,7 +68,7 @@ void PoolInit(pthread_t *threads)
 
 void PoolDestroy(pthread_t *threads)
 {
-    for(int i = 0; i < MAX_THREADS; i ++)
+    for(int i = 0; i < atoi(MAX_THREADS); i ++)
     {
         int result;
         if ((result = pthread_join(threads[i], NULL)) != 0)

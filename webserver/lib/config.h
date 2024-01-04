@@ -22,6 +22,7 @@
 
 extern const char* ROOT_DIR;
 extern const char* SERVICE_PORT;
+extern const char* MAX_THREADS;
 
 /**
     @brief Initialize ROOT_DIR and SERVICE_PORT with the values found in the configuraion
@@ -40,7 +41,7 @@ void Init();
     @return Returns the string after the first encounter of 'val' till \n or \0. On error
         (no configuration file or there is no match with 'val') 'default_val' is returned.
 */
-char* GetFromConfigFile(const char* val, const char* default_val, size_t size);
+char* GetFromConfigFile(char* config_file, const char* val, const char* default_val, size_t size);
 
 /**
     @brief Gets the contents of the file stored in CONFIG_FILE

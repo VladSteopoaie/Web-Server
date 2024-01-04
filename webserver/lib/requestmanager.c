@@ -56,12 +56,12 @@ int ValidateVersion(const char* version)
 
 int ValidateRequest(struct request* req)
 {
-    if (ValidateURI(req->uri) != 0)
-        return INV_URI;
     if (ValidateMethod(req->method) != 0)
         return INV_METHOD;
     if (ValidateVersion(req->version) != 0)
         return INV_VERSION;
+    if (ValidateURI(req->uri) != 0)
+        return INV_URI;
 
     return 0;
 }
@@ -157,7 +157,7 @@ void* ConcatData(const void* data1, size_t size1, const void* data2, size_t size
 /////// OTHER FUNCTIONS ////////
 ////////////////////////////////
 
-void GetPostAttributes(const char* request, char* attirbutes)
+void GetPostAttributes(const char* request, char* attributes)
 {   
     size_t size = 0;
     char* content_length = "Content-Length: ";
@@ -166,7 +166,7 @@ void GetPostAttributes(const char* request, char* attirbutes)
 
     if (start == NULL || length == NULL)
     {
-        attirbutes[0] = '\0';
+        attributes[0] = '\0';
         return;
     }
     length += strlen(content_length);
@@ -177,17 +177,18 @@ void GetPostAttributes(const char* request, char* attirbutes)
         size = 10 * size + (*i) - '0';
     }
 
-    memcpy(attirbutes, start, size);
+    memcpy(attributes, start, size);
+    attributes[size] = '\0';
 
     return;
     
 
     // if (end == start)
     // {
-    //     memcpy(attirbutes, start, strlen(start));
+    //     memcpy(attributes, start, strlen(start));
     // }
     // else {
-    //     memcpy(attirbutes, start, strlen(start) - strlen(end));
+    //     memcpy(attributes, start, strlen(start) - strlen(end));
     // }
 
 }
@@ -223,7 +224,7 @@ char* GetExtension(const char* path)
     return ext;
 }
 
-size_t GetFile(const char* path, char* body)
+ssize_t GetFile(const char* path, char* body)
 {
     struct stat st;
     if (stat(path, &st) < 0)
@@ -238,23 +239,9 @@ size_t GetFile(const char* path, char* body)
     }
 
     int fd = Open(path, O_RDONLY);
-    char* addr = mmap(0, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+    if (Read(fd, body, st.st_size) < 0)
+        return -1;
     close(fd);
-
-    if (addr == MAP_FAILED)
-    {
-        perror("mmap");
-        return -1;
-    }
-
-    memcpy(body, addr, st.st_size);
-    body[st.st_size] = '\0';
-
-    if (munmap(addr, st.st_size) < 0)
-    {
-        perror("munmap");
-        return -1;
-    }
     
     return st.st_size;
 }
@@ -393,13 +380,13 @@ char* ReadRequest(int sock)
 
 void ManageRequest(int sock)
 {
+    //usleep(5000); // just for speed tests
     size_t response_size;
     int req_result; 
     struct request req;
     char* response = NULL;
 
     char* text_received = ReadRequest(sock);
-    // DEB(text_received);
     req_result = ParseRequest(text_received, &req);
 
     switch(req_result)
@@ -421,7 +408,7 @@ void ManageRequest(int sock)
     if (req_result == 0)
     {
 
-        size_t body_size = 0;
+        ssize_t body_size;
         int command_result = 0;
         char command[MAX_LEN_PATH];
         char* ext, *header, *path;
@@ -449,7 +436,7 @@ void ManageRequest(int sock)
         
         AppendContentType(header, ext);
 
-        LockRequestMutex();
+        
         if (strcmp(ext, "php") == 0)
         {
             char post_attributes[MAX_LEN_PATH];
@@ -466,17 +453,22 @@ void ManageRequest(int sock)
             snprintf(command, MAX_LEN_PATH,
             "php \"%s/preprocess.php\" \"%s\" \"%s\" > \"%s/processed.html\"", 
                     CONFIG_DIR, post_attributes, path, ROOT_DIR);
+            LockRequestMutex();
             command_result = system(command);
 
-            snprintf(path, MAX_LEN_PATH, "%s/processed.html", ROOT_DIR);
+            if (command_result == 0)
+            {
+                snprintf(path, MAX_LEN_PATH, "%s/processed.html", ROOT_DIR);
+                body_size = GetFile(path, body);
+                unlink(path);
+            }
+            else {
+                body_size = -1;
+            }
+            UnlockRequestMutex();
         }
-        
-        if (command_result == 0)
+        else
             body_size = GetFile(path, body);
-        
-        snprintf(command, MAX_LEN_PATH, "rm \"%s/processed.html\" 2> /dev/null 1>&2", ROOT_DIR);
-        system(command);
-        UnlockRequestMutex();
         
         body_size < 0 ? header[0] = '\0' : AppendContentLength(header, body_size);
 
@@ -494,10 +486,9 @@ void ManageRequest(int sock)
         }
 
         free(header);
-        free(body);
         free(ext);
         free(path);
-
+        free(body);      
     }
     else {
         response_size = strlen(response);

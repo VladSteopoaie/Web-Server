@@ -1,0 +1,1957 @@
+Command number: 0
+Command: curl -i -X WRONG  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 1
+Command: curl -i -X HEAD  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 2
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 3
+Command: curl -i -X HEAD  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 4
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 211
+
+<html>
+    <head>
+        <title>Home page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page!</h1>
+        <img src="just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 5
+Command: curl -i -X WRONG  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 6
+Command: curl -i -X WRONG  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 7
+Command: curl -i -X HEAD  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 8
+Command: curl -i -X GET  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 9
+Command: curl -i -X GET  -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 638
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+        
+    <!-- HTML form with inputs for name and surname -->
+    <form method="post" action="">
+        <label for="firstName">First Name:</label>
+        <input type="text" name="firstName" id="firstName" required>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" name="lastName" id="lastName" required>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+        </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 10
+Command: curl -i -X WRONG  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 11
+Command: curl -i -X WRONG  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 12
+Command: curl -i -X HEAD  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 13
+Command: curl -i -X GET  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 14
+Command: curl -i -X GET  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 15
+Command: curl -i -X GET  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 16
+Command: curl -i -X HEAD  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 17
+Command: curl -i -X WRONG  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 18
+Command: curl -i -X WRONG  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 19
+Command: curl -i -X WRONG  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 20
+Command: curl -i -X WRONG  -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 21
+Command: curl -i -X HEAD  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Location: /newpages/
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 22
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 23
+Command: curl -i -X WRONG  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 24
+Command: curl -i -X GET  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 25
+Command: curl -i -X HEAD  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Location: /newpages/
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 26
+Command: curl -i -X HEAD  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 27
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 218
+
+<html>
+    <head>
+        <title>Home 2 page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page 2!</h1>
+        <img src="../just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 28
+Command: curl -i -X GET  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 211
+
+<html>
+    <head>
+        <title>Home page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page!</h1>
+        <img src="just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 29
+Command: curl -i -X GET  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 218
+
+<html>
+    <head>
+        <title>Home 2 page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page 2!</h1>
+        <img src="../just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 30
+Command: curl -i -X GET  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 31
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 32
+Command: curl -i -X HEAD  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 33
+Command: curl -i -X GET  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Location: /newpages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 774
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Presentation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Your Presentation Title</h1>
+  </header>
+
+  <main>
+    <section id="section1">
+      <h2>Section 1</h2>
+      <p>This is the content of section 1.</p>
+    </section>
+
+    <section id="section2">
+      <h2>Section 2</h2>
+      <p>This is the content of section 2.</p>
+    </section>
+
+    <section id="section3">
+      <h2>Section 3</h2>
+      <p>This is the content of section 3.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Your Company</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
+----------------- END -----------------
+
+Command number: 34
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 35
+Command: curl -i -X WRONG  -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 36
+Command: curl -i -X HEAD  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 37
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 38
+Command: curl -i -X GET  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Location: /newpages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 774
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Presentation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Your Presentation Title</h1>
+  </header>
+
+  <main>
+    <section id="section1">
+      <h2>Section 1</h2>
+      <p>This is the content of section 1.</p>
+    </section>
+
+    <section id="section2">
+      <h2>Section 2</h2>
+      <p>This is the content of section 2.</p>
+    </section>
+
+    <section id="section3">
+      <h2>Section 3</h2>
+      <p>This is the content of section 3.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Your Company</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
+----------------- END -----------------
+
+Command number: 39
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 40
+Command: curl -i -X GET  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 218
+
+<html>
+    <head>
+        <title>Home 2 page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page 2!</h1>
+        <img src="../just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 41
+Command: curl -i -X GET  -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 638
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+        
+    <!-- HTML form with inputs for name and surname -->
+    <form method="post" action="">
+        <label for="firstName">First Name:</label>
+        <input type="text" name="firstName" id="firstName" required>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" name="lastName" id="lastName" required>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+        </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 42
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 43
+Command: curl -i -X GET  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 211
+
+<html>
+    <head>
+        <title>Home page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page!</h1>
+        <img src="just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 44
+Command: curl -i -X WRONG  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 45
+Command: curl -i -X WRONG  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 46
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 47
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 48
+Command: curl -i -X WRONG  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 49
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 50
+Command: curl -i -X HEAD  -0 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 505 HTTP Version Not Supported
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 51
+Command: curl -i -X HEAD  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /newpages/
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 52
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 211
+
+<html>
+    <head>
+        <title>Home page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page!</h1>
+        <img src="just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 53
+Command: curl -i -X WRONG  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 54
+Command: curl -i -X GET  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /newpages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 774
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Presentation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Your Presentation Title</h1>
+  </header>
+
+  <main>
+    <section id="section1">
+      <h2>Section 1</h2>
+      <p>This is the content of section 1.</p>
+    </section>
+
+    <section id="section2">
+      <h2>Section 2</h2>
+      <p>This is the content of section 2.</p>
+    </section>
+
+    <section id="section3">
+      <h2>Section 3</h2>
+      <p>This is the content of section 3.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Your Company</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
+----------------- END -----------------
+
+Command number: 55
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 211
+
+<html>
+    <head>
+        <title>Home page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page!</h1>
+        <img src="just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 56
+Command: curl -i -X WRONG  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 57
+Command: curl -i -X HEAD  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 58
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 59
+Command: curl -i -X GET  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 218
+
+<html>
+    <head>
+        <title>Home 2 page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page 2!</h1>
+        <img src="../just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 60
+Command: curl -i -X GET  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 211
+
+<html>
+    <head>
+        <title>Home page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page!</h1>
+        <img src="just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 61
+Command: curl -i -X GET  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 62
+Command: curl -i -X GET  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /newpages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 774
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Presentation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Your Presentation Title</h1>
+  </header>
+
+  <main>
+    <section id="section1">
+      <h2>Section 1</h2>
+      <p>This is the content of section 1.</p>
+    </section>
+
+    <section id="section2">
+      <h2>Section 2</h2>
+      <p>This is the content of section 2.</p>
+    </section>
+
+    <section id="section3">
+      <h2>Section 3</h2>
+      <p>This is the content of section 3.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Your Company</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
+----------------- END -----------------
+
+Command number: 63
+Command: curl -i -X GET  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 64
+Command: curl -i -X GET  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 65
+Command: curl -i -X HEAD  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 66
+Command: curl -i -X GET  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 67
+Command: curl -i -X HEAD  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 68
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 69
+Command: curl -i -X HEAD  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 70
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 71
+Command: curl -i -X WRONG  -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 72
+Command: curl -i -X WRONG  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 73
+Command: curl -i -X WRONG  -1 http://localhost:8888/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 74
+Command: curl -i -X HEAD  -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 75
+Command: curl -i -X GET  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /newpages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 774
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Presentation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Your Presentation Title</h1>
+  </header>
+
+  <main>
+    <section id="section1">
+      <h2>Section 1</h2>
+      <p>This is the content of section 1.</p>
+    </section>
+
+    <section id="section2">
+      <h2>Section 2</h2>
+      <p>This is the content of section 2.</p>
+    </section>
+
+    <section id="section3">
+      <h2>Section 3</h2>
+      <p>This is the content of section 3.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Your Company</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
+----------------- END -----------------
+
+Command number: 76
+Command: curl -i -X GET  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 218
+
+<html>
+    <head>
+        <title>Home 2 page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page 2!</h1>
+        <img src="../just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 77
+Command: curl -i -X WRONG  -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 78
+Command: curl -i -X HEAD  -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 79
+Command: curl -i -X HEAD  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 80
+Command: curl -i -X WRONG  -0 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 81
+Command: curl -i -X WRONG  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 82
+Command: curl -i -X GET  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 211
+
+<html>
+    <head>
+        <title>Home page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page!</h1>
+        <img src="just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 83
+Command: curl -i -X HEAD  -1 http://localhost:8888/newpages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /newpages/
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 84
+Command: curl -i -X GET  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 218
+
+<html>
+    <head>
+        <title>Home 2 page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page 2!</h1>
+        <img src="../just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 85
+Command: curl -i -X GET  -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 638
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+        
+    <!-- HTML form with inputs for name and surname -->
+    <form method="post" action="">
+        <label for="firstName">First Name:</label>
+        <input type="text" name="firstName" id="firstName" required>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" name="lastName" id="lastName" required>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+        </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 86
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 87
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 88
+Command: curl -i -X WRONG  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 89
+Command: curl -i -X HEAD  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 90
+Command: curl -i -X GET  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 404 Not Found
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 168
+
+<html><head><title>404 Not Found</title></head>            <body style="text-align: center;"><h1>404 Not Found</h1><p>This resource can not be found.</p></body></html>
+----------------- END -----------------
+
+Command number: 91
+Command: curl -i -X HEAD  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 92
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 211
+
+<html>
+    <head>
+        <title>Home page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page!</h1>
+        <img src="just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 93
+Command: curl -i -X HEAD  -1 http://localhost:8888/
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+----------------- END -----------------
+
+Command number: 94
+Command: curl -i -X GET  -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 638
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+        
+    <!-- HTML form with inputs for name and surname -->
+    <form method="post" action="">
+        <label for="firstName">First Name:</label>
+        <input type="text" name="firstName" id="firstName" required>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" name="lastName" id="lastName" required>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+        </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 95
+Command: curl -i -X GET  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 218
+
+<html>
+    <head>
+        <title>Home 2 page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page 2!</h1>
+        <img src="../just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 96
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
+Command number: 97
+Command: curl -i -X WRONG  -1 http://localhost:8888/thisShouldNotExist
+--------------- CONTENT ---------------
+
+HTTP/1.1 501 Not Implemented
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 193
+
+<html><head><title>501 Not Implemented</title></head>            <body style="text-align: center;"><h1>501 Not Implemented</h1><p>Request method not recoginsed by the server.</p></body></html>
+----------------- END -----------------
+
+Command number: 98
+Command: curl -i -X GET  -1 http://localhost:8888/pages
+--------------- CONTENT ---------------
+
+HTTP/1.1 301 Moved Permanently
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Location: /pages/
+Content-Type: text/html; charset=utf-8
+Content-Length: 218
+
+<html>
+    <head>
+        <title>Home 2 page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Hello to the home page 2!</h1>
+        <img src="../just.jpeg" alt="No image:'(">
+    </body>
+</html>
+----------------- END -----------------
+
+Command number: 99
+Command: curl -i -X POST -d "firstName=Gustav&lastName=Ferguson" -1 http://localhost:8888/newpages/index.php
+--------------- CONTENT ---------------
+
+HTTP/1.1 200 OK
+Server: DancingGhost/1.0
+Connection: close
+Date: Thu, 04 Jan 2024 09:56:57 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 275
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name and Surname Form</title>
+</head>
+<body>
+
+    
+        <h1>Hello, Gustav Ferguson</h1>
+
+            </body>
+</html>
+ 
+----------------- END -----------------
+
