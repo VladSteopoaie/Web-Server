@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
     vector<string> versions = {"-1", "-0"};
     string post_attributes = "-d \"firstName=Gustav&lastName=Ferguson\""; // post attributes in curl command
 
-    int request_number = 100;
+    int request_number = 5000;
     vector<pid_t> processes;
 
 

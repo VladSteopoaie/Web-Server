@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     master_sock = PassiveSockTCP(SERVICE_PORT); // creates a listening tcp socket on port SERVICE_PORT
     FD_SET(master_sock, &active_fd_set); // add the socket to the fd set
 
-    printf("Serving HTTP\nDirectory: %s\nAddress: 0.0.0.0\nPort: %s\nExample: http://0.0.0.0:%s/\n\n", ROOT_DIR, SERVICE_PORT, SERVICE_PORT);
+    printf("Serving HTTP\nDirectory: %s\nAddress: 0.0.0.0\nPort: %s\nExample: http://0.0.0.0:%s/\nNumber of threads: %s\n\n", ROOT_DIR, SERVICE_PORT, SERVICE_PORT, MAX_THREADS);
     int cnt = 0;
 	for(;;) { // infinite loop for asynchronous input
 
