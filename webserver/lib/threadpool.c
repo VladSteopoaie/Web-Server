@@ -40,6 +40,8 @@ void* startThread(void* args)
 
 void AddTask(Task task)
 {
+                // printf("%d\n", taskCount);
+
     pthread_mutex_lock(&mutexQueue); // lock mutex when modifying taskQueue
     taskQueue[taskCount] = task;
     taskCount ++;

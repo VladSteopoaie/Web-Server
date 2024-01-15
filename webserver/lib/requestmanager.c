@@ -49,7 +49,7 @@ int ValidateURI(const char* uri)
 
 int ValidateVersion(const char* version)
 {
-    if (strcmp(version, "HTTP/1.1") == 0)
+    if ((strcmp(version, "HTTP/1.1") == 0) || (strcmp(version, "HTTP/1.0") == 0))
         return 0;
     return -1;
 }
@@ -180,16 +180,6 @@ void GetPostAttributes(const char* request, char* attributes)
     memcpy(attributes, start, size);
     attributes[size] = '\0';
 
-    return;
-    
-
-    // if (end == start)
-    // {
-    //     memcpy(attributes, start, strlen(start));
-    // }
-    // else {
-    //     memcpy(attributes, start, strlen(start) - strlen(end));
-    // }
 
 }
 
@@ -272,8 +262,7 @@ char* CreateHeader(const char* code, const char* header_title)
 
 char* CreateSimpleResponse(const char* code, const char* header_title, const char* body_title, const char* message)
 {
-    char* response = malloc(MAX_LEN_FILE + MAX_LEN_HEADER);
-    bzero(response, MAX_LEN_FILE);
+    char* response;
     char* body = malloc(MAX_LEN_FILE);
     bzero(body, MAX_LEN_FILE);
     
@@ -380,7 +369,7 @@ char* ReadRequest(int sock)
 
 void ManageRequest(int sock)
 {
-    //usleep(5000); // just for speed tests
+    // usleep(50); // just for speed tests
     size_t response_size;
     int req_result; 
     struct request req;

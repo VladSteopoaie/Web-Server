@@ -75,7 +75,6 @@ int main(int argc, char *argv[])
 
 
             printf("%s -- [%s] reqest no. %d\n", ip_str, dateString, ++cnt);
-
             Task request;
             request.taskFunction = ManageRequest;
             request.arg = client_sock;

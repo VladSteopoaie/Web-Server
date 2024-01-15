@@ -13,7 +13,7 @@
 #define MAX_LEN_VERSION 16
 #define MAX_LEN_PATH 512
 #define MAX_LEN_HEADER 4096
-#define MAX_LEN_FILE 102400
+#define MAX_LEN_FILE 10240000
 
 #define DEFAULT_ROOT_DIR "/etc/webserver/http/home"
 #define DEFAULT_SERVICE_PORT "8888"
