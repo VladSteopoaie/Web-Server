@@ -1,3 +1,4 @@
+#include <netinet/in.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -64,20 +65,10 @@ int main(int argc, char *argv[])
                 exit(EXIT_FAILURE);
             }
 
-            time_t currentTime;
-            time(&currentTime);
-
-            // Format the time 
-            struct tm *timeInfo = localtime(&currentTime);
-            char dateString[50];  
-
-            strftime(dateString, sizeof(dateString), "%d/%b/%Y %H:%M:%S", timeInfo);
-
-
-            printf("%s -- [%s] reqest no. %d\n", ip_str, dateString, ++cnt);
             Task request;
             request.taskFunction = ManageRequest;
-            request.arg = client_sock;
+            request.arg.client_socket = client_sock;
+            strcpy(request.arg.ip_addr, ip_str);
             AddTask(request);
 		}
 

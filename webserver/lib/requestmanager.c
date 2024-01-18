@@ -1,4 +1,7 @@
 #include "requestmanager.h"
+#include "config.h"
+#include "threadpool.h"
+#include <stdio.h>
 
 #ifdef DEBUG
 
@@ -181,6 +184,12 @@ void GetPostAttributes(const char* request, char* attributes)
     attributes[size] = '\0';
 
 
+}
+
+void GetFirstLine(const char* text, char* line)
+{
+    for (int i = 0; text[i] != '\n' && text[i] != '\0'; i ++)
+        line[i] = text[i];
 }
 
 int IsDir(const char* path)
@@ -367,7 +376,7 @@ char* ReadRequest(int sock)
     return text;
 }
 
-void ManageRequest(int sock)
+void ManageRequest(struct connection* conn)
 {
     // usleep(50); // just for speed tests
     size_t response_size;
@@ -375,7 +384,7 @@ void ManageRequest(int sock)
     struct request req;
     char* response = NULL;
 
-    char* text_received = ReadRequest(sock);
+    char* text_received = ReadRequest(conn->client_socket);
     req_result = ParseRequest(text_received, &req);
 
     switch(req_result)
@@ -489,9 +498,28 @@ void ManageRequest(int sock)
         response_size = strlen(response) - strlen(header_end);
     }
 
-    SendResponse(sock, response, response_size);
+    SendResponse(conn->client_socket, response, response_size);
+
+
+    // after the response print the log on the screen
+    time_t currentTime;
+    time(&currentTime);
+
+    // Format the time 
+    struct tm *timeInfo = localtime(&currentTime);
+    char dateString[50];  
+
+    strftime(dateString, sizeof(dateString), "%d/%b/%Y %H:%M:%S", timeInfo);
+
+    char log_req[MAX_LEN_HEADER], log_resp[MAX_LEN_HEADER];
+    GetFirstLine(text_received, log_req);
+    GetFirstLine(response, log_resp);
+
+    LockLogMutex(); // to print the logs in order
+    printf("%s -- [%s]\nReq: %s\nResp: %s\n\n", conn->ip_addr, dateString, log_req, log_resp);
+    UnlockLogMutex();
 
     free(text_received);
     free(response);
-    close(sock);
+    close(conn->client_socket);
 }

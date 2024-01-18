@@ -95,6 +95,6 @@ int ParseRequest(const char* req, struct request* result);
 
 char* ReadRequest(int sock);
 
-void ManageRequest(int sock);
+void ManageRequest(struct connection* conn);
 
 #endif

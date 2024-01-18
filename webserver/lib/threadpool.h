@@ -7,12 +7,16 @@
 #include <assert.h>
 #include "config.h"
 
-// #define MAX_THREADS 1 // change the number of threads here
 #define MAX_TASKS 70010
 
+struct connection {
+    int client_socket;
+    char ip_addr[MAX_LEN_ADDR];
+};
+
 typedef struct Task {
-    void (*taskFunction)(int);
-    int arg;
+    void (*taskFunction)(struct connection*);
+    struct connection arg;
 } Task;
 
 /**
@@ -47,5 +51,16 @@ void LockRequestMutex();
     @brief Unlocks mutexRequest
 */
 void UnlockRequestMutex();
+
+/**
+    @brief Locks mutexLog
+*/
+void LockLogMutex();
+
+/**
+    @brief Unlocks mutexLog
+*/
+void UnlockLogMutex();
+
 
 #endif

@@ -4,12 +4,13 @@ Task taskQueue[MAX_TASKS];
 int taskCount = 0;
 
 pthread_mutex_t mutexQueue; // used when adding a task to the task queue
-pthread_mutex_t mutexRequest; // used when accessing and mapping the memory of a file in ManageRequest function
+pthread_mutex_t mutexRequest; // used when executing php command in ManageRequest function
+pthread_mutex_t mutexLog; // used when printing logs in ManageRequest function
 pthread_cond_t condQueue; // used to wait for a task to be added to the queue
 
 void ExecuteTask(Task* task)
 {
-    task->taskFunction(task->arg);
+    task->taskFunction(&(task->arg));
 }
 
 // thread routine
@@ -40,8 +41,6 @@ void* startThread(void* args)
 
 void AddTask(Task task)
 {
-                // printf("%d\n", taskCount);
-
     pthread_mutex_lock(&mutexQueue); // lock mutex when modifying taskQueue
     taskQueue[taskCount] = task;
     taskCount ++;
@@ -55,6 +54,7 @@ void PoolInit(pthread_t *threads)
     assert(size > 0);
     pthread_mutex_init(&mutexQueue, NULL);
     pthread_mutex_init(&mutexRequest, NULL);
+    pthread_mutex_init(&mutexLog, NULL);
     pthread_cond_init(&condQueue, NULL);
     for(int i = 0; i < size; i ++)
     {
@@ -83,6 +83,7 @@ void PoolDestroy(pthread_t *threads)
 
     pthread_mutex_destroy(&mutexQueue);
     pthread_mutex_destroy(&mutexRequest);
+    pthread_mutex_destroy(&mutexLog);
     pthread_cond_destroy(&condQueue);
 }
 
@@ -95,4 +96,14 @@ void LockRequestMutex()
 void UnlockRequestMutex()
 {
     pthread_mutex_unlock(&mutexRequest);
+}
+
+void LockLogMutex()
+{
+    pthread_mutex_lock(&mutexLog);
+}
+
+void UnlockLogMutex()
+{
+    pthread_mutex_unlock(&mutexLog);
 }
