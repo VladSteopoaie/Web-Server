@@ -65,6 +65,7 @@ int main(int argc, char *argv[])
                 exit(EXIT_FAILURE);
             }
 
+            // Adding the request to the threadpool task queue
             Task request;
             request.taskFunction = ManageRequest;
             request.arg.client_socket = client_sock;

@@ -3,13 +3,6 @@
 #include "threadpool.h"
 #include <stdio.h>
 
-#ifdef DEBUG
-
-    #define DEB(x) printf("%s\n", x)
-    #define DEBI(msg, i) printf("%s: %d\n", msg, i)
-    #define DEBA(msg, i) printf("%s: %p\n", msg, i)
-
-#endif
 
 /////////////////////////////////////
 /////// VALIDATION FUNCTIONS ////////
@@ -37,7 +30,7 @@ int ValidateURI(const char* uri)
 
     result = access(path, F_OK);
 
-    if (IsDir(path))
+    if (IsDir(path) == 0)
     {
         if (path[strlen(path) - 1] != '/')
             strcat(path, "/");
@@ -188,8 +181,11 @@ void GetPostAttributes(const char* request, char* attributes)
 
 void GetFirstLine(const char* text, char* line)
 {
-    for (int i = 0; text[i] != '\n' && text[i] != '\0'; i ++)
+    for (int i = 0; text[i] != '\n' && text[i] != '\0'; i ++) {
         line[i] = text[i];
+        if (text[i + 1] == '\n' || text[i + 1] == '\0')
+            line[i + 1] = '\0';
+    }
 }
 
 int IsDir(const char* path)
@@ -197,15 +193,15 @@ int IsDir(const char* path)
     struct stat st;
     if (stat(path, &st) < 0)
     {
-        return 0;
+        return -1;
     }
 
     if (S_ISDIR(st.st_mode))
     {
-        return 1;
+        return 0;
     }
 
-    return 0;
+    return -1;
 }
 
 
@@ -292,14 +288,21 @@ char* CreateSimpleResponse(const char* code, const char* header_title, const cha
     return response;
 }
 
-char* Http_404()
+char* Http_301(const char* new_path)
 {
-    return CreateSimpleResponse("404", "Not Found", "404 Not Found", "This resource can not be found.");
+    char* header = CreateHeader("301", "Moved Permanently");
+    AppendLocation(header, new_path);
+    return header;
 }
 
 char* Http_400()
 {
     return CreateSimpleResponse("400", "Bad Request", "400 Bad Request", "The server can not parse this request.");
+}
+
+char* Http_404()
+{
+    return CreateSimpleResponse("404", "Not Found", "404 Not Found", "This resource can not be found.");
 }
 
 char* Http_500()
@@ -315,13 +318,6 @@ char* Http_501()
 char* Http_505()
 {
     return CreateSimpleResponse("505", "HTTP Version Not Supported", "505 HTTP Version Not Supported", "Only HTTP/1.1 is supported.");
-}
-
-char* Http_301(const char* new_path)
-{
-    char* header = CreateHeader("301", "Moved Permanently");
-    AppendLocation(header, new_path);
-    return header;
 }
 
 
@@ -384,9 +380,11 @@ void ManageRequest(struct connection* conn)
     struct request req;
     char* response = NULL;
 
+    // reading the request
     char* text_received = ReadRequest(conn->client_socket);
     req_result = ParseRequest(text_received, &req);
 
+    // validating the request
     switch(req_result)
     {
         case INV_METHOD:
@@ -405,7 +403,6 @@ void ManageRequest(struct connection* conn)
 
     if (req_result == 0)
     {
-
         ssize_t body_size;
         int command_result = 0;
         char command[MAX_LEN_PATH];
@@ -413,9 +410,11 @@ void ManageRequest(struct connection* conn)
         char* body = malloc(MAX_LEN_FILE);
         bzero(body, MAX_LEN_FILE);
         
+        // creating the path & header
         path = AppendString(ROOT_DIR, req.uri, MAX_LEN_PATH);
-        if (IsDir(path))
+        if (IsDir(path) == 0)
         {
+            // if we have a directory we need to append "index.html" or "index.php"
             if (path[strlen(path) -1] != '/') {
                 strcat(req.uri, "/");
                 strcat(path, "/");
@@ -437,6 +436,7 @@ void ManageRequest(struct connection* conn)
         
         if (strcmp(ext, "php") == 0)
         {
+            // if php is requested we need to run the file on the server
             char post_attributes[MAX_LEN_PATH];
             
             if (strcmp(req.method, "GET") == 0)
@@ -465,13 +465,14 @@ void ManageRequest(struct connection* conn)
             }
             UnlockRequestMutex();
         }
-        else
+        else // if php isn't requested we simply send the file
             body_size = GetFile(path, body);
         
         body_size < 0 ? header[0] = '\0' : AppendContentLength(header, body_size);
 
         
         if (header[0] == '\0') {
+            // on error we return an error page
             response = (command_result == 0) ? Http_404() : Http_500();
             response_size = strlen(response);
         }

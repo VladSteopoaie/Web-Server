@@ -8,7 +8,7 @@ ssize_t Read(int fd, void* buf, size_t count)
     {
         perror("read");
     }
-    //assert(nb >= 0);
+    assert(nb >= 0);
     return nb;
 }
 
