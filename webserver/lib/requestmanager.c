@@ -1,7 +1,4 @@
 #include "requestmanager.h"
-#include "config.h"
-#include "threadpool.h"
-#include <stdio.h>
 
 
 /////////////////////////////////////

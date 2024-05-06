@@ -1,6 +1,13 @@
 #ifndef CONNECTSOCK_H
 #define CONNECTSOCK_H
 
+#include <sys/socket.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <netdb.h>
+#include <unistd.h>
+
 /**
     @brief Converts a string into an integer that can be used
         for socket() in the socktype attribute.

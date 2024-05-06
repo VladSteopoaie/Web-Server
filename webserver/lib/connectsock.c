@@ -1,10 +1,4 @@
 #include "connectsock.h"
-#include <sys/socket.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <netdb.h>
-#include <unistd.h>
 
 #define LISTEN_BACKLOG 128
 
